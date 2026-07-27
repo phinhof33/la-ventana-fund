@@ -100,6 +100,7 @@ export async function nominateFromCatalog(formData: FormData) {
   revalidatePath("/dashboard");
   revalidatePath("/catalog");
 }
+export async function castVote(formData: FormData) {
   const supabase = createClient();
   const {
     data: { user },
