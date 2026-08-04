@@ -1,5 +1,4 @@
 "use client";
-
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 
@@ -15,7 +14,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/dashboard`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback?next=/dashboard`,
       },
     });
     if (error) {
@@ -32,7 +31,6 @@ export default function LoginPage() {
       <p style={{ opacity: 0.8, marginTop: 12, fontSize: 15 }}>
         No password to remember. Enter your email and we'll send a one-time link to sign in.
       </p>
-
       {sent ? (
         <p style={{ marginTop: 32, color: "var(--teal)" }}>
           Check your inbox — a sign-in link is on its way to {email}.
