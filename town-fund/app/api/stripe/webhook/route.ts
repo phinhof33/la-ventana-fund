@@ -52,7 +52,14 @@ export async function POST(req: Request) {
         .eq("stripe_customer_id", sub.customer as string);
       break;
     }
-
+case "invoice.payment_failed": {
+  const invoice = event.data.object as Stripe.Invoice;
+  await supabase
+    .from("profiles")
+    .update({ subscription_status: "past_due" })
+    .eq("stripe_customer_id", invoice.customer as string);
+  break;
+}
     case "invoice.paid": {
       const invoice = event.data.object as Stripe.Invoice;
       const customerId = invoice.customer as string;
