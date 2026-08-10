@@ -70,7 +70,7 @@ export default async function DashboardPage() {
   const { data: nominations } = await supabase
     .from("nominations")
     .select("id, title, description, estimated_cost, status, created_at")
-    .in("status", ["open", "winner"])
+    .eq("status", "open")
     .order("created_at", { ascending: false });
 
   let tally: Record<string, number> = {};
