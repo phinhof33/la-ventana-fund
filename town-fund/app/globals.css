@@ -1,36 +1,30 @@
 :root {
-  /* Sea of Cortez at dusk, sand, and the sunset that gives La Ventana its wind */
-  --ink: #0f3b45;
-  --ink-raised: #164a56;
-  --parchment: #f1e6cf;
-  --parchment-strong: #faf3e2;
-  --brass: #e0793f;
-  --teal: #3fb6ae;
+  --ink: #123832;
+  --ink-raised: #ffffff;
+  --parchment: #fbf6ec;
+  --parchment-strong: #fffdf7;
+  --brass: #e07a2e;
+  --teal: #0e7a6e;
   --rust: #c1502f;
-  --hairline: rgba(241, 230, 207, 0.18);
-
+  --hairline: rgba(18, 56, 50, 0.12);
   --font-display: "Fraunces", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
-
 * {
   box-sizing: border-box;
 }
-
 html,
 body {
   padding: 0;
   margin: 0;
-  background: var(--ink);
-  color: var(--parchment);
+  background: var(--parchment);
+  color: var(--ink);
   font-family: var(--font-body);
 }
-
 a {
   color: inherit;
 }
-
 h1,
 h2,
 h3 {
@@ -38,23 +32,19 @@ h3 {
   font-weight: 600;
   margin: 0;
 }
-
 .mono {
   font-family: var(--font-mono);
 }
-
 .wrap {
   max-width: 880px;
   margin: 0 auto;
   padding: 0 24px;
 }
-
 .hairline {
   border: none;
   border-top: 1px solid var(--hairline);
   margin: 0;
 }
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -63,43 +53,37 @@ h3 {
   font-weight: 600;
   font-size: 15px;
   padding: 12px 20px;
-  border-radius: 3px;
+  border-radius: 20px;
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
 }
-
 .btn-brass {
   background: var(--brass);
-  color: var(--ink);
+  color: #fff;
 }
-
 .btn-brass:hover {
-  background: #d9b23a;
+  background: #c9631e;
 }
-
 .btn-outline {
   background: transparent;
   border-color: var(--hairline);
-  color: var(--parchment);
+  color: var(--ink);
 }
-
 .btn-outline:hover {
   border-color: var(--brass);
   color: var(--brass);
 }
-
 input,
 textarea {
   font-family: var(--font-body);
   background: var(--ink-raised);
   border: 1px solid var(--hairline);
-  color: var(--parchment-strong);
+  color: var(--ink);
   padding: 10px 12px;
-  border-radius: 3px;
+  border-radius: 10px;
   font-size: 15px;
 }
-
 input:focus,
 textarea:focus,
 button:focus-visible,
@@ -107,7 +91,6 @@ a:focus-visible {
   outline: 2px solid var(--brass);
   outline-offset: 2px;
 }
-
 .ledger-entry {
   display: flex;
   justify-content: space-between;
@@ -116,7 +99,6 @@ a:focus-visible {
   border-bottom: 1px solid var(--hairline);
   gap: 16px;
 }
-
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -124,7 +106,6 @@ a:focus-visible {
   text-transform: uppercase;
   color: var(--teal);
 }
-
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
