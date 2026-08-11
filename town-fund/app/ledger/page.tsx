@@ -225,3 +225,16 @@ export default async function LedgerPage() {
                 <span
                   className="mono"
                   style={{ fontSize: 15, color: isIn ? "var(--teal)" : "var(--rust)", whiteSpace: "nowrap" }}
+                >
+                  {isIn ? "+" : "-"}${Math.abs(Number(e.amount)).toFixed(2)}
+                </span>
+              </div>
+            );
+          })
+        ) : (
+          <p style={{ opacity: 0.7, marginTop: 20 }}>No entries yet — the first contribution will show up here.</p>
+        )}
+      </div>
+    </main>
+  );
+}
