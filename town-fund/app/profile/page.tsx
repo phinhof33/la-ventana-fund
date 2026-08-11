@@ -78,3 +78,22 @@ export default async function ProfilePage() {
             }}
           >
             {profile?.first_name?.[0] || "?"}
+          </div>
+        )}
+        <span
+          className="mono"
+          style={{
+            fontSize: 13,
+            padding: "6px 12px",
+            borderRadius: 20,
+            border: "1px solid var(--hairline)",
+            color: isActive ? "var(--teal)" : "var(--rust)",
+          }}
+        >
+          {isActive ? "Active member" : "Not subscribed"}
+        </span>
+      </div>
+
+      {isActive && (
+        <form action="/api/stripe/portal" method="POST" style={{ marginTop: 14 }}>
+          <button type="submit" className="btn btn-outline" style={{
