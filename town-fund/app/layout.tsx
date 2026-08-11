@@ -35,10 +35,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Idea board
             </a>
             <a href="/ledger" style={{ textDecoration: "none" }}>
-              Ledger
+              Vote & ledger
             </a>
-            <a href="/dashboard" style={{ textDecoration: "none" }}>
-              Dashboard
+            <a href="/profile" style={{ textDecoration: "none" }}>
+              Profile
             </a>
           </div>
         </nav>
