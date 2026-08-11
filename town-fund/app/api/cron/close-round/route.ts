@@ -26,8 +26,8 @@ export async function GET(req: Request) {
     let winnerId: string | null = null;
 
     if (tallyRows && tallyRows.length > 0) {
-      const maxVotes = Math.max(...tallyRows.map((r) => r.vote_count));
-      const tied = tallyRows.filter((r) => r.vote_count === maxVotes);
+      const maxVotes = Math.max(...tallyRows.map((r: any) => r.vote_count));
+const tied = tallyRows.filter((r: any) => r.vote_count === maxVotes);
       winnerId = tied[Math.floor(Math.random() * tied.length)].nomination_id;
     } else {
       const { data: openNoms } = await supabase
