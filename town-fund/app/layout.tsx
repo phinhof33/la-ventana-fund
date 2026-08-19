@@ -33,8 +33,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             borderBottom: "1px solid var(--hairline)",
           }}
         >
-          <a href="/" style={{ fontFamily: "var(--font-display)", fontWeight: 600, textDecoration: "none" }}>
-            {fundName}
+          
+            href="/"
+            style={{
+              fontFamily: "var(--font-display)",
+              textDecoration: "none",
+              lineHeight: 1.15,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <span style={{ fontWeight: 600, fontSize: 17 }}>Collective Coffers</span>
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontWeight: 400,
+                fontSize: 11,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "var(--brass)",
+              }}
+            >
+              La Ventana
+            </span>
           </a>
           <div style={{ display: "flex", gap: 20, fontSize: 14, alignItems: "center" }}>
             <a href="/catalog" style={{ textDecoration: "none" }}>
