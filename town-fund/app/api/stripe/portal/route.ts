@@ -19,7 +19,7 @@ export async function POST() {
     .single();
 
   if (!profile?.stripe_customer_id) {
-    return NextResponse.redirect(new URL("/dashboard", process.env.NEXT_PUBLIC_SITE_URL));
+    return NextResponse.redirect(new URL("/profile", process.env.NEXT_PUBLIC_SITE_URL));
   }
 
   const session = await stripe.billingPortal.sessions.create({

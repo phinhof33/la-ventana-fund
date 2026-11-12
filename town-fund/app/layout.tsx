@@ -43,6 +43,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="/catalog" style={{ textDecoration: "none" }}>
               {labels.nav_ideaboard}
             </a>
+            <a href="/vote" style={{ textDecoration: "none" }}>
+              {labels.nav_vote}
+            </a>
             <a href="/ledger" style={{ textDecoration: "none" }}>
               {labels.nav_ledger}
             </a>

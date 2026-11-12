@@ -33,8 +33,8 @@ export async function POST() {
     mode: "subscription",
     customer: customerId,
     line_items: [{ price: process.env.STRIPE_PRICE_ID!, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/ledger`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/ledger`,
+    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/vote`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/vote`,
     metadata: { supabase_user_id: user.id },
   });
 

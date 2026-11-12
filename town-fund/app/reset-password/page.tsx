@@ -29,7 +29,7 @@ export default function ResetPasswordPage() {
     const { error } = await supabase.auth.updateUser({ password });
     setBusy(false);
     if (error) return setError(error.message);
-    window.location.href = "/ledger";
+    window.location.href = "/vote";
   }
 
   return (

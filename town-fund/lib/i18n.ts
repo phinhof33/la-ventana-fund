@@ -3,7 +3,8 @@ export type Lang = "en" | "es";
 export const dict = {
   en: {
     nav_ideaboard: "Idea board",
-    nav_ledger: "Vote & ledger",
+    nav_vote: "Vote",
+    nav_ledger: "Ledger",
     nav_profile: "Profile",
 
     home_eyebrow: "Pesos pooled by the people of La Ventana",
@@ -94,7 +95,8 @@ export const dict = {
   },
   es: {
     nav_ideaboard: "Tablero de ideas",
-    nav_ledger: "Votar y balance",
+    nav_vote: "Votar",
+    nav_ledger: "Balance",
     nav_profile: "Perfil",
 
     home_eyebrow: "Pesos reunidos por la gente de La Ventana",

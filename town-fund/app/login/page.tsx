@@ -25,7 +25,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
     if (error) return setError(error.message);
-    window.location.href = "/ledger";
+    window.location.href = "/vote";
   }
 
   return (
