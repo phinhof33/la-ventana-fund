@@ -1,64 +1,45 @@
 "use client";
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
-import { dict, Lang } from "@/lib/i18n";
-
-function readLangCookie(): Lang {
-  if (typeof document === "undefined") return "en";
-  const match = document.cookie.match(/(?:^|; )lang=([^;]+)/);
-  return match?.[1] === "es" ? "es" : "en";
-}
+import { authCopy, readLangCookie, AuthLang } from "@/lib/authcopy";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<Lang>("en");
+  const [busy, setBusy] = useState(false);
+  const [lang, setLang] = useState<AuthLang>("en");
 
   useEffect(() => {
     setLang(readLangCookie());
+    if (window.location.search.includes("error=")) setError("link");
   }, []);
 
-  const s = dict[lang];
+  const s = authCopy[lang];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setBusy(true);
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}/auth/callback?next=/catalog`,      },
-    });
-    if (error) {
-      setError(error.message);
-    } else {
-      setSent(true);
-    }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setBusy(false);
+    if (error) return setError(error.message);
+    window.location.href = "/ledger";
   }
 
   return (
     <main className="wrap" style={{ paddingTop: 96, maxWidth: 420 }}>
-      <p className="eyebrow">{s.login_eyebrow}</p>
-      <h1 style={{ fontSize: 32, marginTop: 12 }}>{s.login_title}</h1>
-      <p style={{ opacity: 0.8, marginTop: 12, fontSize: 15 }}>{s.login_blurb}</p>
-      {sent ? (
-        <p style={{ marginTop: 32, color: "var(--teal)" }}>{s.login_sent(email)}</p>
-      ) : (
-        <form onSubmit={handleSubmit} style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 12 }}>
-          <input
-            type="email"
-            required
-            placeholder={s.login_placeholder}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit" className="btn btn-brass">
-            {s.login_button}
-          </button>
-          {error && <p style={{ color: "var(--rust)", fontSize: 14 }}>{error}</p>}
-        </form>
-      )}
+      <p className="eyebrow">{s.loginEyebrow}</p>
+      <h1 style={{ fontSize: 32, marginTop: 12 }}>{s.loginTitle}</h1>
+      <form onSubmit={handleSubmit} style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 12 }}>
+        <input type="email" required placeholder={s.email} value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" required placeholder={s.password} value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit" className="btn btn-brass" disabled={busy}>{s.loginButton}</button>
+        {error && <p style={{ color: "var(--rust)", fontSize: 14 }}>{error === "link" ? s.loginLinkFailed : error}</p>}
+      </form>
+      <p style={{ marginTop: 24, fontSize: 14 }}><a href="/signup" style={{ color: "var(--teal)" }}>{s.noAccount}</a></p>
+      <p style={{ marginTop: 8, fontSize: 14 }}><a href="/forgot-password" style={{ color: "var(--teal)" }}>{s.forgot}</a></p>
     </main>
   );
 }

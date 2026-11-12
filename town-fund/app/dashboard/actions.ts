@@ -33,7 +33,7 @@ export async function completeProfile(formData: FormData) {
 
   const { error } = await supabase.from("profiles").update(updates).eq("id", user.id);
   if (error) throw new Error(error.message);
-  revalidatePath("/dashboard");
+  revalidatePath("/ledger");
   revalidatePath("/ledger");
 }
 
@@ -60,7 +60,7 @@ export async function nominate(formData: FormData) {
   });
 
   if (error) throw new Error(error.message);
-  revalidatePath("/dashboard");
+  revalidatePath("/ledger");
 }
 
 export async function nominateFromCatalog(formData: FormData) {
@@ -97,7 +97,7 @@ export async function nominateFromCatalog(formData: FormData) {
   });
 
   if (error) throw new Error(error.message);
-  revalidatePath("/dashboard");
+  revalidatePath("/ledger");
   revalidatePath("/catalog");
 }
 export async function castVote(formData: FormData) {
@@ -121,5 +121,5 @@ export async function castVote(formData: FormData) {
   });
 
   if (error) throw new Error(error.message);
-  revalidatePath("/dashboard");
+  revalidatePath("/ledger");
 }

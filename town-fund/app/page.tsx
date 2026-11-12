@@ -34,7 +34,7 @@ export default async function HomePage() {
           {s.home_blurb(fundName)}
         </p>
         <div style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-          <Link href="/login" className="btn btn-brass">
+          <Link href="/signup" className="btn btn-brass">
             {s.home_join(fundName)}
           </Link>
           <Link href="/catalog" className="btn btn-outline">
