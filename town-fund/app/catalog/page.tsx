@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { isMember } from "@/lib/membership";
 import { nominateFromCatalog } from "@/app/dashboard/actions";
 import { getLang } from "@/lib/lang";
 import { t } from "@/lib/i18n";
@@ -16,10 +17,10 @@ export default async function CatalogPage() {
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("subscription_status")
+      .select("subscription_status, paid_through")
       .eq("id", user.id)
       .maybeSingle();
-    isActive = profile?.subscription_status === "active";
+    isActive = isMember(profile);
   }
 
   const { data: items } = await supabase

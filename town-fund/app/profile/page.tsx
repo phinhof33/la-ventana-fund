@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { completeProfile } from "@/app/dashboard/actions";
 import { getLang } from "@/lib/lang";
 import { t } from "@/lib/i18n";
+import { isMember } from "@/lib/membership";
 
 export default async function ProfilePage() {
   const supabase = createClient();
@@ -19,7 +20,7 @@ export default async function ProfilePage() {
     ({ data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single());
   }
 
-  const isActive = profile?.subscription_status === "active";
+  const isActive = isMember(profile);
   const needsOnboarding = !profile?.first_name;
 
   const profileForm = (
@@ -95,7 +96,11 @@ export default async function ProfilePage() {
         </span>
       </div>
 
-      {isActive && (
+      {profile?.paid_through && profile?.subscription_status !== "active" && isActive && (
+        <p className="mono" style={{ marginTop: 14, fontSize: 13, opacity: 0.8 }}>{s.profile_cashthrough(profile.paid_through)}</p>
+      )}
+
+      {profile?.subscription_status === "active" && (
         <form action="/api/stripe/portal" method="POST" style={{ marginTop: 14 }}>
           <button type="submit" className="btn btn-outline" style={{ fontSize: 13, padding: "8px 14px" }}>
             {s.profile_manage}
