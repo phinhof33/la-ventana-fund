@@ -3,6 +3,7 @@ import { nominate, castVote } from "@/app/dashboard/actions";
 import { getLang } from "@/lib/lang";
 import { t } from "@/lib/i18n";
 import Link from "next/link";
+import { isMember } from "@/lib/membership";
 
 export default async function VotePage() {
   const supabase = createClient();
@@ -15,7 +16,7 @@ export default async function VotePage() {
   let isActive = false;
   if (user) {
     const { data } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
-    isActive = data?.subscription_status === "active";
+    isActive = isMember(data);
   }
 
   const { data: cycle } = await supabase
