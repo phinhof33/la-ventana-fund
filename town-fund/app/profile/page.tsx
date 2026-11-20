@@ -22,6 +22,7 @@ export default async function ProfilePage() {
 
   const isActive = isMember(profile);
   const needsOnboarding = !profile?.first_name;
+  const pastDue = profile?.subscription_status === "past_due";
 
   const profileForm = (
     <form
@@ -92,7 +93,7 @@ export default async function ProfilePage() {
             color: isActive ? "var(--teal)" : "var(--rust)",
           }}
         >
-          {isActive ? s.profile_active : s.profile_notsubscribed}
+          {isActive ? s.profile_active : pastDue ? s.profile_pastdue : s.profile_notsubscribed}
         </span>
       </div>
 
@@ -100,15 +101,17 @@ export default async function ProfilePage() {
         <p className="mono" style={{ marginTop: 14, fontSize: 13, opacity: 0.8 }}>{s.profile_cashthrough(profile.paid_through)}</p>
       )}
 
-      {profile?.subscription_status === "active" && (
+      {pastDue && <p style={{ marginTop: 14, color: "var(--rust)" }}>{s.profile_pastdue_blurb}</p>}
+
+      {(profile?.subscription_status === "active" || pastDue) && (
         <form action="/api/stripe/portal" method="POST" style={{ marginTop: 14 }}>
           <button type="submit" className="btn btn-outline" style={{ fontSize: 13, padding: "8px 14px" }}>
-            {s.profile_manage}
+            {pastDue ? s.profile_updatecard : s.profile_manage}
           </button>
         </form>
       )}
 
-      {!isActive && !needsOnboarding && (
+      {!isActive && !pastDue && !needsOnboarding && (
         <div style={{ marginTop: 20, padding: 20, background: "var(--ink-raised)", borderRadius: 16 }}>
           <p style={{ margin: 0, opacity: 0.9 }}>{s.profile_joinblurb}</p>
           <form action="/api/stripe/checkout" method="POST" style={{ marginTop: 14 }}>

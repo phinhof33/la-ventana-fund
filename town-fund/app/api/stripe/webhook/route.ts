@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { sendEmail, paymentFailedEmail } from "@/lib/email";
 
 // Stripe needs the raw body to verify the webhook signature.
 export const runtime = "nodejs";
@@ -52,14 +53,23 @@ export async function POST(req: Request) {
         .eq("stripe_customer_id", sub.customer as string);
       break;
     }
-case "invoice.payment_failed": {
-  const invoice = event.data.object as Stripe.Invoice;
-  await supabase
-    .from("profiles")
-    .update({ subscription_status: "past_due" })
-    .eq("stripe_customer_id", invoice.customer as string);
-  break;
-}
+    case "invoice.payment_failed": {
+      const invoice = event.data.object as Stripe.Invoice;
+      const { data: member } = await supabase
+        .from("profiles")
+        .update({ subscription_status: "past_due" })
+        .eq("stripe_customer_id", invoice.customer as string)
+        .select("email, first_name")
+        .maybeSingle();
+
+      // Stripe retries a failed payment several times. Only email on the first failure.
+      const to = member?.email || invoice.customer_email;
+      if (to && invoice.attempt_count === 1) {
+        const { subject, html } = paymentFailedEmail(member?.first_name, process.env.NEXT_PUBLIC_SITE_URL!);
+        await sendEmail(to, subject, html);
+      }
+      break;
+    }
     case "invoice.paid": {
       const invoice = event.data.object as Stripe.Invoice;
       const customerId = invoice.customer as string;
